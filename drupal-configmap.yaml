@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drupal-configmap
+data:
+  drupal_mysql_server: drupal_mysql_service
+  drupal_mysql_db: drupal

@@ -23,25 +23,29 @@ spec:
         - name: MYSQL_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-username
-         
+              name: drupal-mysql-secret
+              key:  D_MYSQL_USERNAME
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
-              key: mysql-password
+              name: drupal-mysql-secret
+              key:  D_MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: drupal-configmap
+              key: drupal_mysql_db
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: drupal-service
-  spec:
-    type: NodePort
+spec:
   selector:
-  app: drupal
-  port
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 30080
+    app: drupal
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80
+      nodePort: 30080

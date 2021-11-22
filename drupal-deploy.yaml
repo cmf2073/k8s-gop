@@ -19,3 +19,29 @@ spec:
         image: drupal:latest
         ports:
         - containerPort: 80
+        env:
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-username
+         
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-service
+  spec:
+    type: NodePort
+  selector:
+  app: drupal
+  port
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080

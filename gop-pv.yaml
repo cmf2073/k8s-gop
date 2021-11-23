@@ -1,0 +1,192 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: drupal-mysql-pv
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath: 
+    path: /drupal-mysql-data
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: drupal-pv
+spec:
+  accessModes: 
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath: 
+    path: /drupal-mysql-data
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: drupal-mysql-secret
+type: Opaque
+data:
+  MYSQL_ROOT_PASSWORD: cm9vdF9wYXNzd29yZA==
+  MYSQL_DATABASE: ZHJ1cGFsLWRhdGFiYXNl
+  MYSQL_USER: cm9vdA==
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-mysql-pvc
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: drupal-mysql-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: drupal-pvc
+spec:
+  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
+  volumeName: drupal-pv
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal-mysql
+  labels:
+    app: mysql
+    tier: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      volumes:
+        - name: drupal-mysql-storage
+          persistentVolumeClaim:
+            claimName: drupal-mysql-pvc
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: drupal-mysql-storage
+          subPath: dbdata
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  D_MYSQL_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  D_MYSQL_USERNAME
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  D_MYSQL_PASSWORD
+#        - name: MYSQL_DATABASE
+#          valueFrom:
+#            configMapKeyRef:
+#              name: drupal-configmap
+#              key: drupal_mysql_db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-mysql-service
+spec:
+  type: ClusterIP
+  selector:
+    app: drupal-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+#      nodePort: 30080
+---
+# DRUPAL deplyment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      volumes:
+      - name: drupal-storage
+        persistentVolumeClaim:
+          claimName: drupal-pvc
+      containers:
+      - name: drupal
+        image: drupal:8.6
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /var/www/html/modules
+          name: drupal-storage
+          subPath: modules
+        - mountPath: /var/www/html/profiles
+          name: drupal-storage
+          subPath: profiles
+        - mountPath: /var/www/html/sites
+          name: drupal-storage
+          subPath: sites
+        - mountPath: /var/www/html/themes
+          name: drupal-storage
+          subPath: themes
+        env:
+        - name: MYSQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  D_MYSQL_USERNAME
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  D_MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: drupal-configmap
+              key: drupal_mysql_db
+       initContainers:
+       - name: init-sites-volume
+         image:  drupal:8.6
+         Command: [ "/bin/bash", "-c", 'cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R' ]
+         volumeMounts:
+         - mountPath: /var/www/html/modules
+           name: drupal-storage
+           subPath: modules
+---
+# mkdir in nodes 
+mkdir /drupal-mysql-data && mkdir  /drupal-data

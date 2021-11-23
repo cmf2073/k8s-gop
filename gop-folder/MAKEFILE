@@ -4,6 +4,9 @@ modify-nodes:
 	kubectl get nodes -o wide
 	echo mkdir /drupal-mysql-data && mkdir  /drupal-data
 
+create-secret:
+	kubectl apply -f 00-secret.yaml
+
 create-pv:
 	kubectl apply -f 01-pv-create.yaml
 
@@ -14,5 +17,5 @@ build-drupal-mysql:
 	kubectl apply -f 03-mysql-all.yaml
 
 build-drupal:
-	kubectl apply -f 04-drupal-all-yaml
+	kubectl apply -f 04-drupal-all.yaml
 

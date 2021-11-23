@@ -7,4 +7,5 @@ spec:
     service:
       name: drupal-service
       port:
-        number: 8081
+        number: 8082
+        targetPort: 8082

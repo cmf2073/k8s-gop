@@ -1,3 +1,68 @@
+# Jekyll deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jekyll
+  labels:
+    app: jekyll
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jekyll
+  template:
+    metadata:
+      labels:
+        app: jekyll
+        run: jekyll
+    spec:
+      volumes:
+      - name: site
+        persistentVolumeClaim:
+          claimName: jekyll-site
+      containers:
+      - name: jekyll
+        image: kodekloud/jekyll-serve
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /site
+          name: site
+ #         subPath: modules
+ #       - mountPath: /var/www/html/profiles
+ #         name: drupal-storage
+ #         subPath: profiles
+ #       - mountPath: /var/www/html/sites
+ #         name: drupal-storage
+ #         subPath: sites
+ #       - mountPath: /var/www/html/themes
+ #         name: drupal-storage
+ #         subPath: themes
+#        env:
+#        - name: MYSQL_USERNAME
+#          valueFrom:
+#            secretKeyRef:
+#              name: drupal-mysql-secret
+#              key:  D_MYSQL_USERNAME
+#        - name: MYSQL_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: drupal-mysql-secret
+#              key:  D_MYSQL_PASSWORD
+#        - name: MYSQL_DATABASE
+#          valueFrom:
+#            configMapKeyRef:
+#              name: drupal-configmap
+#              key: drupal_mysql_db
+      initContainers:
+      - name: copy-jekyll-site
+        image:  kodekloud/jekyl
+        command: ["/bin/bash", "-c"]
+        args: ["jekyll", "new", "/site"]
+        volumeMounts:
+        - mountPath: /sites
+          name: site
+#          subPath: modules
 ---
 apiVersion: v1
 kind: Service

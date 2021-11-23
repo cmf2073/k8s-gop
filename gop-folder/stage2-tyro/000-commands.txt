@@ -1,5 +1,7 @@
-kubectl get pv
+git clone https://github.com/cmf2073/k8s-gop.git
+
+kubectl get pv -o wide
 
 kubectl config set-context developer --cluster=kubernetes --user=drogo
 
-kubectl config set-credentials drogo --username=drogo --client-certificate=/root/drogo.crt --client-key= /root/drogo.key
+kubectl config set-credentials drogo --username=drogo --client-certificate=/root/drogo.crt --client-key=/root/drogo.key

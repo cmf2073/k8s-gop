@@ -1,0 +1,5 @@
+kubectl get pv
+
+kubectl config set-context developer --cluster=kubernetes --user=drogo
+
+kubectl config set-credentials drogo --username=drogo --client-certificate=/root/drogo.crt --client-key= /root/drogo.key

@@ -1,0 +1,17 @@
+SHELL = /bin/bash
+
+modify-nodes:
+	echo mkdir /drupal-mysql-data && mkdir  /drupal-data
+
+create-pv:
+	kubectl apply -f 01-pv-create.yaml
+
+create-pvc:
+	kubectl apply -f 02-pvc-create.yaml
+
+build-drupal-mysql:
+	kubectl apply -f 03-mysql-all.yaml
+
+build-drupal:
+	kubectl apply -f 04-drupal-all-yaml
+

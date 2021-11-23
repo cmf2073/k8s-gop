@@ -35,11 +35,11 @@ spec:
             secretKeyRef:
               name: drupal-mysql-secret
               key: MYSQL_ROOT_PASSWORD
-#        - name: MYSQL_USER
-#          valueFrom:
-#            secretKeyRef:
-#              name: drupal-mysql-secret
-#              key:  MYSQL_USER
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: drupal-mysql-secret
+              key:  MYSQL_USER
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:

@@ -1,0 +1,1 @@
+mkdir /drupal-mysql-data && mkdir  /drupal-data

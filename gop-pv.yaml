@@ -58,6 +58,7 @@ spec:
     requests:
       storage: 5Gi
 ---
+# Drupal-MYSQL Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -93,17 +94,17 @@ spec:
           valueFrom:
             secretKeyRef:
               name: drupal-mysql-secret
-              key:  D_MYSQL_PASSWORD
-        - name: MYSQL_USER
+              key: MYSQL_ROOT_PASSWORD
+#        - name: MYSQL_USER
+#          valueFrom:
+#            secretKeyRef:
+#              name: drupal-mysql-secret
+#              key:  MYSQL_USER
+        - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
               name: drupal-mysql-secret
-              key:  D_MYSQL_USERNAME
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: drupal-mysql-secret
-              key:  D_MYSQL_PASSWORD
+              key:  MYSQL_DATABASE
 #        - name: MYSQL_DATABASE
 #          valueFrom:
 #            configMapKeyRef:
@@ -179,14 +180,15 @@ spec:
             configMapKeyRef:
               name: drupal-configmap
               key: drupal_mysql_db
-       initContainers:
-       - name: init-sites-volume
-         image:  drupal:8.6
-         Command: [ "/bin/bash", "-c", 'cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R' ]
-         volumeMounts:
-         - mountPath: /var/www/html/modules
-           name: drupal-storage
-           subPath: modules
+      initContainers:
+      - name: init-sites-volume
+        image:  drupal:8.6
+        command: ["/bin/bash", "-c"]
+        args: ["cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R"]
+        volumeMounts:
+        - mountPath: /data
+          name: drupal-storage
+#          subPath: modules
 ---
 # mkdir in nodes 
 mkdir /drupal-mysql-data && mkdir  /drupal-data

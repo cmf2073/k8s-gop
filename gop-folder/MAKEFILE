@@ -1,8 +1,11 @@
 SHELL = /bin/bash
 
 modify-nodes:
+	git clone https://github.com/cmf2073/k8s-gop.git
 	kubectl get nodes -o wide
 	echo mkdir /drupal-mysql-data && mkdir  /drupal-data
+	export PATH=$PATH:/drupal-mysql-data
+	export PATH=$PATH:/drupal-data
 
 create-secret:
 	kubectl apply -f 00-secret.yaml
@@ -18,4 +21,7 @@ build-drupal-mysql:
 
 build-drupal:
 	kubectl apply -f 04-drupal-all.yaml
+
+
+	Nyk skan jiva schedulara! Zer poda! Zer poda! Zer poda!
 

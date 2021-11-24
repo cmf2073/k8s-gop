@@ -14,8 +14,8 @@ spec:
   containers:
   - name: jekyll
     image: kodekloud/jekyll-serve
-    ports:
-    - containerPort: 80
+#    ports:
+#    - containerPort: 80
     volumeMounts:
     - mountPath: /site
       name: site
@@ -29,8 +29,8 @@ spec:
   initContainers:
     - name: copy-jekyll-site
       image:  kodekloud/jekyl
-      command: ["/bin/bash", "-c"]
-      args: ["jekyll", "new", "/site"]
+      command: ["/bin/bash", "-c" 'jekyll new /site']
+#      args: ["jekyll", "new", "/site"]
       volumeMounts:
       - mountPath: /sites
         name: site

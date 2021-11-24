@@ -6,6 +6,7 @@ metadata:
   namespace: development
   labels:
     app: jekyll
+    run: jekyll
 spec:
   volumes:
   - name: site
@@ -14,8 +15,8 @@ spec:
   containers:
   - name: jekyll
     image: kodekloud/jekyll-serve
-#    ports:
-#    - containerPort: 80
+    ports:
+    - containerPort: 8080
     volumeMounts:
     - mountPath: /site
       name: site
@@ -23,8 +24,8 @@ spec:
   initContainers:
     - name: copy-jekyll-site
       image:  kodekloud/jekyll
-      command: [ "/bin/bash", "-c", 'jekyll new /site' ]
-#      args: ["jekyll", "new", "/site"]
+      command: ["/bin/bash"]
+      args: ["-c","jekyll new /site"]
       volumeMounts:
       - mountPath: /site
         name: site

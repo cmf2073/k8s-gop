@@ -26,7 +26,7 @@ spec:
       command: [ "/bin/bash", "-c", 'jekyll new /site' ]
 #      args: ["jekyll", "new", "/site"]
       volumeMounts:
-      - mountPath: /sites
+      - mountPath: /site
         name: site
 #         subPath: modules
 ---

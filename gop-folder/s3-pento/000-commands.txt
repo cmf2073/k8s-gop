@@ -3,8 +3,8 @@ git clone https://github.com/cmf2073/k8s-gop.git
 -- change /ca-authority.crt to ca.crt
 vim /etc/kubernetes/manifests/kube-apiserver.yaml 
 
-
-
+-- node01 schedulingdisable so 
+kubectl uncordon <NODE_NAME>
 
 
 

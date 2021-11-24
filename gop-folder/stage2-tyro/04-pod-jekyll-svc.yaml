@@ -39,7 +39,8 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: drupal
+    run: jekyll
+    namespace: development
   ports:
     - protocol: TCP
       port: 8080

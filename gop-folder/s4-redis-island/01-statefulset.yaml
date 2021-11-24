@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: redis # has to match .spec.template.metadata.labels
-#  serviceName: "nginx"
+  serviceName: "redis"
   replicas: 6 # by default is 1
   template:
     metadata:
@@ -35,11 +35,11 @@ spec:
         - name: data
           mountPath: /data
           readOnly: false
-    volumes:
-      - name: conf
-        configMap:
-          defaultMode: 0755
-          name: redis-cluster-configmap
+      volumes:
+        - name: conf
+          configMap:
+            defaultMode: 0755
+            name: redis-cluster-configmap
   volumeClaimTemplates:
   - metadata:
       name: data

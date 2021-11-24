@@ -7,6 +7,8 @@ kubectl config set-context developer --cluster=kubernetes --user=drogo
 kubectl config set-credentials drogo --username=drogo --client-certificate=/root/drogo.crt --client-key=/root/drogo.key
 
 kubectl config use-context developer
+
+-- to rollback in the exercise
 kubectl config use-context kubernetes-admin@kubernetes
 
 -- Other importante commands
@@ -16,3 +18,9 @@ more info https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 kubectl config current-context
 
 kubectl config use-context xxxxxx cluster-name
+
+
+FINAL
+EPISODE
+
+Zyhys perzys stepagon schedulara Oño resarc, se poda lys qelitsos sikagon

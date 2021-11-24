@@ -25,7 +25,7 @@ spec:
         command: ["/conf/update-node.sh", "redis-server", "/conf/redis.conf"]
         env:
         - name: POD_IP
-          ValueFrom:
+          valueFrom:
             fieldRef:
               fieldPath: status.podIP
         volumeMounts:

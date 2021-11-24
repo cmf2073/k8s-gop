@@ -1,0 +1,22 @@
+# s3-tyro-fs POD
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gop-fileserver
+#  namespace: development
+  labels:
+    app: gop-fs
+spec:
+  volumes:
+  - name: data-store
+    persistentVolumeClaim:
+      claimName: data-pvc
+  containers:
+  - name: gop-fileserver-container
+    image: kodekloud/fileserver
+    ports:
+    - containerPort: 8080
+    volumeMounts:
+    - mountPath: /web
+      name: data-store
+ #      subPath: modules

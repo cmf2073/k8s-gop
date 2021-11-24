@@ -1,0 +1,6 @@
+# Clone repo
+git clone https://github.com/cmf2073/k8s-gop.git
+
+# Inspect out-of-the-box configmap
+kubectl describe configmap redis-cluster-configmap
+

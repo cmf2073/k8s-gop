@@ -40,12 +40,12 @@ spec:
         configMap:
           defaultMode: 0755
           name: redis-cluster-configmap
-    volumeClaimTemplates:
-    - metadata:
+  volumeClaimTemplates:
+  - metadata:
       name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-#        storageClassName: "my-storage-class"
-        resources:
-          requests:
-            storage: 1Gi
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "my-storage-class"
+      resources:
+        requests:
+          storage: 1Gi

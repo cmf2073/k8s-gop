@@ -1,0 +1,16 @@
+git clone https://github.com/cmf2073/k8s-gop.git
+
+-- change /ca-authority.crt to ca.crt
+vim /etc/kubernetes/manifests/kube-apiserver.yaml 
+
+
+
+
+
+
+------
+Debugging
+
+I1124 14:05:42.569095       1 server.go:656] external host was not specified, using 172.17.0.17
+I1124 14:05:42.570463       1 server.go:153] Version: v1.18.0
+Error: unable to load client CA file: open /etc/kubernetes/pki/ca-authority.crt: no such file or directory

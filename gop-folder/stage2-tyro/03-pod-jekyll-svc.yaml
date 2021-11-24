@@ -24,8 +24,8 @@ spec:
   initContainers:
     - name: copy-jekyll-site
       image:  kodekloud/jekyll
-      command: ["/bin/bash"]
-      args: ["-c","jekyll new /site"]
+      command: ["/bin/bash", "-c", "jekyll new /site"]
+ #     args: ["-c","jekyll new /site"]
       volumeMounts:
       - mountPath: /site
         name: site

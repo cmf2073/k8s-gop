@@ -32,13 +32,14 @@ spec:
         - name: conf
           mountPath: /conf
           readOnly: true
+#          defaultMode: 0755
         - name: data
           mountPath: /data
           readOnly: false
       volumes:
         - name: conf
           configMap:
-            defaultMode: 0755
+#            defaultMode: 0755
             name: redis-cluster-configmap
   volumeClaimTemplates:
   - metadata:

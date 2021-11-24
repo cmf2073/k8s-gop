@@ -5,7 +5,7 @@ metadata:
   namespace: development
 spec:
   storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
-  volumeName: jekyll-pv
+  volumeName: jekyll-site
   accessModes:
     - ReadWriteMany
   resources:

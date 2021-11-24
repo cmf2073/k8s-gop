@@ -20,16 +20,10 @@ spec:
     - mountPath: /site
       name: site
  #      subPath: modules
-#   env:
-#     - name: MYSQL_USERNAME
-#       valueFrom:
-#       secretKeyRef:
-#       name: drupal-mysql-secret
-#       key:  D_MYSQL_USERNAME
   initContainers:
     - name: copy-jekyll-site
-      image:  kodekloud/jekyl
-      command: ["/bin/bash", "-c" 'jekyll new /site']
+      image:  kodekloud/jekyll
+      command: [ "/bin/bash", "-c", 'jekyll new /site' ]
 #      args: ["jekyll", "new", "/site"]
       volumeMounts:
       - mountPath: /sites

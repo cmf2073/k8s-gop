@@ -9,7 +9,7 @@ spec:
   volumes:
   - name: site
     persistentVolumeClaim:
-    claimName: jekyll-site
+      claimName: jekyll-site
   containers:
   - name: jekyll
     image: kodekloud/jekyll-serve

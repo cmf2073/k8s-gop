@@ -4,3 +4,5 @@ git clone https://github.com/cmf2073/k8s-gop.git
 # Inspect out-of-the-box configmap
 kubectl describe configmap redis-cluster-configmap
 
+ssh 172.17.0.14 "mkdir /redis01 && ssh 172.17.0.14 "mkdir /redis02 && ssh 172.17.0.14 "mkdir /redis03
+ssh 172.17.0.14 "mkdir /redis04 && ssh 172.17.0.14 "mkdir /redis05 && ssh 172.17.0.14 "mkdir /redis06

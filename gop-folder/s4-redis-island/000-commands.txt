@@ -6,3 +6,6 @@ kubectl describe configmap redis-cluster-configmap
 
 ssh 172.17.0.14 "mkdir /redis01 && ssh 172.17.0.14 "mkdir /redis02 && ssh 172.17.0.14 "mkdir /redis03
 ssh 172.17.0.14 "mkdir /redis04 && ssh 172.17.0.14 "mkdir /redis05 && ssh 172.17.0.14 "mkdir /redis06
+
+kubectl exec -it redis-cluster-0 -- redis-cli --cluster create --cluster-replicas 1 $(kubectl get pods -l app=redis -o jsonpath='{range.items[*]}{.status.podIP}:6379 ')
+
